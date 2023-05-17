@@ -104,6 +104,9 @@ class shortUrl(APIView) :
             response = json.dumps({"urls": newUrls})
         return HttpResponse(response, content_type = "application/json")
     
+    def get(self, request):
+        return HttpResponse("get request")
+    
     
 
 

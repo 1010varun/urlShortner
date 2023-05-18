@@ -23,7 +23,7 @@ class signup(APIView):
         user_data = user.objects.filter(userName = userName)
 
         if(len(user_data)):
-            resp = "USER ALREADY EXISTS"
+            resp = "USERNAME ALREADY EXISTS"
             status = 403
         else:
             new_user = user(userName = userName, password = password)
@@ -52,7 +52,7 @@ class login(APIView):
                 resp = "INNCORRECT PASSWORD"
                 status = 401
         else:
-            resp = "USER NOT FOUND"
+            resp = "USERNAME NOT FOUND"
             status = 400
 
         return HttpResponse(resp, status = status)
@@ -75,6 +75,24 @@ class forgot_password(APIView):
             status = 400
 
         return HttpResponse(resp, status = status)
+    
+
+#CLASS FOR ALL USER URLS
+
+class usersUrls(APIView) : 
+
+    def get(self, request):
+        data = request.data
+        userName = data["userName"]
+        try:
+            user_urls = userUrls.objects.get(userName = userName).urls
+            response = json.dumps({"urls": user_urls.split(",")})
+            status = 200
+        except:
+            response = "NO URLS FOUND"
+            status = 404
+        return HttpResponse(response, content_type="application/json", status=status)
+
 
 
 
@@ -102,7 +120,7 @@ class shortUrl(APIView) :
             new_url = userUrls(userName = userName, urls = newUrls)
             new_url.save()
             response = json.dumps({"urls": newUrls})
-        return HttpResponse(response, content_type = "application/json")
+        return HttpResponse(response, content_type = "application/json", status = 200)
     
     def get(self, request):
         return HttpResponse("get request")

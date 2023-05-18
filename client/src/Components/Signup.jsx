@@ -1,31 +1,46 @@
 import { useState } from "react";
 import axios from "axios"; 
+import propTypes from "prop-types"
+import { login } from "../features/login";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ toastFunction }) => {
 
   const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("")
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handelClick = (e) => {
-    console.log("userName", userName, password)
-    axios({
-      method: "POST",
-      url: import.meta.env.VITE_BASE_URL + '/signup',
-      data: {
-        userName,
-        password
-      }
-    })
-      .then((resp) => {
-        console.log("response = ", resp)
+    if (userName === "" || password === "") {
+      toastFunction("PROVIDE CREDENTIALS", 0);
+    }
+    else {
+      console.log("userName", userName, password)
+      axios({
+        method: "POST",
+        url: import.meta.env.VITE_BASE_URL + '/signup',
+        data: {
+          userName,
+          password
+        }
       })
-      .catch((err) => {
-        console.log("error = ", err)
-      })
-    e.preventDefault()
-    setUserName("")
-    setPassword("")
-  }
+        .then(() => {
+          dispatch(login({ "login": true, "user": userName }));
+          localStorage.setItem("login", true);
+          toastFunction("Signup successful", 1);
+          navigate('/');
+        })
+        .catch((err) => {
+          toastFunction(err.response.data, 0);
+        })
+      e.preventDefault()
+      setUserName("")
+      setPassword("")
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -57,6 +72,10 @@ const Signup = () => {
       </div>
     </div>
   );
+}
+
+Signup.propTypes = {
+  toastFunction: propTypes.func
 }
 
 export default Signup;

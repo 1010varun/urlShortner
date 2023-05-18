@@ -1,14 +1,43 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { login } from "../features/login";
+import propTypes from "prop-types";
 
-const Login = () => {
+const Login = ({toastFunction}) => {
   const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
   const handelClick = (e) => {
-    console.log("userName", userName, password);
-    e.preventDefault();
-    setUserName("");
-    setPassword("");
+      if (userName === "" || password === "") {
+          toastFunction("PROVIDE CREDENTIALS", 0);
+      }
+      else {
+          axios({
+              method: "POST",
+              url: import.meta.env.VITE_BASE_URL + "/login",
+              data: {
+                  userName,
+                  password
+              },
+          })
+              .then(() => {
+                  localStorage.setItem("login", true);
+                  dispatch(login({ "login": true, "user": userName }))
+                  toastFunction("Login successful", 1);
+                  navigate('/')
+              })
+              .catch((err) => {
+                  toastFunction(err.response.data, 0);
+              });
+          e.preventDefault();
+          setUserName("");
+          setPassword("");
+      }
   };
 
   return (
@@ -42,5 +71,9 @@ const Login = () => {
     </div>
   );
 };
+
+Login.propTypes = {
+    toastFunction: propTypes.func
+}
 
 export default Login;

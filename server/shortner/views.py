@@ -81,7 +81,7 @@ class forgot_password(APIView):
 
 class usersUrls(APIView) : 
 
-    def get(self, request):
+    def post(self, request):
         data = request.data
         userName = data["userName"]
         try:
@@ -114,12 +114,12 @@ class shortUrl(APIView) :
             user_urls = userUrls.objects.get(userName = userName).urls
             newUrls = user_urls + ", " + shorten_url
             user.update(urls = newUrls)
-            response = json.dumps({"urls": newUrls.split(",")})
+            response = json.dumps({"urls": newUrls.split(","), "short": shorten_url})
         else:
             newUrls = shorten_url
             new_url = userUrls(userName = userName, urls = newUrls)
             new_url.save()
-            response = json.dumps({"urls": newUrls})
+            response = json.dumps({"urls": newUrls, "short": shorten_url})
         return HttpResponse(response, content_type = "application/json", status = 200)
     
     def get(self, request):

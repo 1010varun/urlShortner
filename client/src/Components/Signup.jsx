@@ -1,50 +1,50 @@
 import { useState } from "react";
-import axios from "axios"; 
-import propTypes from "prop-types"
+import axios from "axios";
+import propTypes from "prop-types";
 import { login } from "../features/login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchUrls } from "../features/userUrls";
 
 const Signup = ({ toastFunction }) => {
-
-  const [userName, setUserName] = useState("")
-  const [password, setPassword] = useState("")
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handelClick = (e) => {
+  const handelClick = () => {
     if (userName === "" || password === "") {
       toastFunction("PROVIDE CREDENTIALS", 0);
-    }
-    else {
-      console.log("userName", userName, password)
+    } else {
       axios({
         method: "POST",
-        url: import.meta.env.VITE_BASE_URL + '/signup',
+        url: import.meta.env.VITE_BASE_URL + "/signup",
         data: {
           userName,
-          password
-        }
+          password,
+        },
       })
         .then(() => {
-          dispatch(login({ "login": true, "user": userName }));
+          dispatch(login({ login: true, user: userName }));
+          dispatch(fetchUrls({ user: userName, urls: [] }));
           localStorage.setItem("login", true);
           toastFunction("Signup successful", 1);
-          navigate('/');
+          setUserName("");
+          setPassword("");
+          navigate("/");
         })
         .catch((err) => {
           toastFunction(err.response.data, 0);
-        })
-      e.preventDefault()
-      setUserName("")
-      setPassword("")
+          setUserName("");
+          setPassword("");
+        });
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col outline outline-offset-2 outline-2  rounded-md w-1/2 md:w-1/3 justify-center items-center h-1/3">
+    <div className="flex justify-center items-center h-96 mt-24">
+      <div className="flex flex-col outline outline-offset-2 outline-2  rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center h-2/3">
         <h1 className="mb-9 text-2xl">Signup</h1>
         <input
           className="border border-blue-600 w-11/12 mb-1 rounded-md p-1 hover:border-blue-950 hover:border-2"
@@ -72,10 +72,10 @@ const Signup = ({ toastFunction }) => {
       </div>
     </div>
   );
-}
+};
 
 Signup.propTypes = {
-  toastFunction: propTypes.func
-}
+  toastFunction: propTypes.func,
+};
 
 export default Signup;

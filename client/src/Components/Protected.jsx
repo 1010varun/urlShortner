@@ -9,7 +9,6 @@ const Protected = ({ Component }) => {
 
     useEffect(() => {
         const login = localStorage.getItem("login");
-        // console.log("login details = ",login);
         if (!login) {
             navigate('login')
         }

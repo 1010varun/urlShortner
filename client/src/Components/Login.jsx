@@ -75,7 +75,7 @@ const Login = ({ toastFunction }) => {
           className="border border-blue-600 w-11/12 mb-1 rounded-md p-1 hover:border-blue-950 hover:border-2"
           value={password}
           type="password"
-          placeholder="Enter UserName"
+          placeholder="Enter Password"
           onChange={(e) => {
             setPassword(e.target.value);
           }}

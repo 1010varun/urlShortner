@@ -44,10 +44,10 @@ const Signup = ({ toastFunction }) => {
 
   return (
     <div className="flex justify-center items-center h-96 mt-24">
-      <div className="flex flex-col outline outline-offset-2 outline-2  rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center h-2/3">
+      <div className="flex flex-col rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center h-2/3 shadow-xl border-2 border-gray-100">
         <h1 className="mb-9 text-2xl">Signup</h1>
         <input
-          className="border border-blue-600 w-11/12 mb-1 rounded-md p-1 hover:border-blue-950 hover:border-2"
+          className="border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2"
           value={userName}
           placeholder="Enter UserName"
           onChange={(e) => {
@@ -55,7 +55,7 @@ const Signup = ({ toastFunction }) => {
           }}
         ></input>
         <input
-          className="border border-blue-600 w-11/12 mb-1 rounded-md p-1 hover:border-blue-950 hover:border-2"
+          className="border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2"
           value={password}
           type="password"
           placeholder="Enter UserName"

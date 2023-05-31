@@ -29,6 +29,7 @@ const Signup = ({ toastFunction }) => {
           dispatch(login({ login: true, user: userName }));
           dispatch(fetchUrls({ user: userName, urls: [] }));
           localStorage.setItem("login", true);
+          localStorage.setItem("username", userName);
           toastFunction("Signup successful", 1);
           setUserName("");
           setPassword("");
@@ -58,7 +59,7 @@ const Signup = ({ toastFunction }) => {
           className="border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2"
           value={password}
           type="password"
-          placeholder="Enter UserName"
+          placeholder="Enter Password"
           onChange={(e) => {
             setPassword(e.target.value);
           }}

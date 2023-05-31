@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUrls } from "../features/userUrls";
 import axios from "axios";
@@ -13,10 +13,25 @@ const Home = ({ toastFunction }) => {
 
   const dispatch = useDispatch();
   const userUrls = useSelector((state) => state.userUrls.value);
-  const user = useSelector((state) => state.user.value);
   const urls = userUrls.urls;
-  const userName = user.user;
   const length = urls.length;
+  const userName = localStorage.getItem('username');
+
+  useEffect(() => {
+    axios({
+      method: "POST",
+      url: import.meta.env.VITE_BASE_URL + "/allUrls",
+      data: {
+        userName,
+      },
+    })
+      .then((resp) => {
+        dispatch(fetchUrls({ user: userName, urls: resp.data.urls }));
+      })
+      .catch(() => {
+        dispatch(fetchUrls({ user: userName, urls: [] }));
+      });
+  })
 
   const makeShort = () => {
     axios({

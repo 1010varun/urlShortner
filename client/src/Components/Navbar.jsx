@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/login";
 import { eraseUrls } from "../features/userUrls";
@@ -8,8 +9,21 @@ import propTypes from "prop-types";
 const Navbar = ({ toastFunction }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const login = user.login;
-  const userName = user.user;
+  const statelogin = user.login;
+  const stateuserName = user.user;
+  const [login, setLogin] = useState(false);
+  const [userName, setuserName] = useState("");
+
+
+  useEffect(() => {
+    if (localStorage.getItem('login')) {
+      console.log("")
+      setLogin(localStorage.getItem('login'))
+      setuserName(localStorage.getItem("username"));
+    }
+  }, []);
+
+  
 
   const handelLogout = (e) => {
     e.preventDefault();
@@ -22,10 +36,10 @@ const Navbar = ({ toastFunction }) => {
 
   return (
     <div className="bg-blue-900 flex text-white justify-end">
-      {login ? (
+      {login||statelogin ? (
         <>
           <div className="p-5 rounded-md cursor-pointer">
-            Login as {userName}
+            Login as {userName || stateuserName}
           </div>
           <div
             className="p-5 hover:bg-blue-950 rounded-md cursor-pointer"

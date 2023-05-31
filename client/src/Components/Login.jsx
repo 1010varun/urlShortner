@@ -44,6 +44,7 @@ const Login = ({ toastFunction }) => {
         .then(() => {
           fetchUserUrls();
           localStorage.setItem("login", true);
+          localStorage.setItem("username", userName);
           dispatch(login({ login: true, user: userName }));
           toastFunction("Login successful", 1);
           setUserName("");

@@ -9,6 +9,8 @@ import { fetchUrls } from "../features/userUrls";
 const Signup = ({ toastFunction }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ const Signup = ({ toastFunction }) => {
     if (userName === "" || password === "") {
       toastFunction("PROVIDE CREDENTIALS", 0);
     } else {
+      setLoading(true);
       axios({
         method: "POST",
         url: import.meta.env.VITE_BASE_URL + "/signup",
@@ -26,6 +29,7 @@ const Signup = ({ toastFunction }) => {
         },
       })
         .then(() => {
+          setLoading(false);
           dispatch(login({ login: true, user: userName }));
           dispatch(fetchUrls({ user: userName, urls: [] }));
           localStorage.setItem("login", true);
@@ -42,6 +46,9 @@ const Signup = ({ toastFunction }) => {
         });
     }
   };
+
+  const signup = "Sign Up";
+  const loader = "Loading...";
 
   return (
     <div className="flex justify-center items-center h-96 mt-24">
@@ -66,9 +73,9 @@ const Signup = ({ toastFunction }) => {
         ></input>
         <button
           className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
-          onClick={handelClick}
+          onClick={handelClick} disabled={loading}
         >
-          Sign Up
+          {loading ? loader : signup}
         </button>
       </div>
     </div>

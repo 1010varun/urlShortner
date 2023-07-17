@@ -9,6 +9,7 @@ import propTypes from "prop-types";
 const Login = ({ toastFunction }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const Login = ({ toastFunction }) => {
     if (userName === "" || password === "") {
       toastFunction("PROVIDE CREDENTIALS", 0);
     } else {
+      setLoading(true);
       axios({
         method: "POST",
         url: import.meta.env.VITE_BASE_URL + "/login",
@@ -42,6 +44,7 @@ const Login = ({ toastFunction }) => {
         },
       })
         .then(() => {
+          setLoading(false);
           fetchUserUrls();
           localStorage.setItem("login", true);
           localStorage.setItem("username", userName);
@@ -59,6 +62,9 @@ const Login = ({ toastFunction }) => {
       
     }
   };
+
+  const loader = "Loading...";
+  const logintext = "Login"
 
   return (
     <div className="flex justify-center items-center h-96 mt-24">
@@ -83,9 +89,9 @@ const Login = ({ toastFunction }) => {
         ></input>
         <button
           className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
-          onClick={handelClick}
+          onClick={handelClick} disabled={ loading}
         >
-          Login
+          {loading ? loader :  logintext }
         </button>
       </div>
     </div>

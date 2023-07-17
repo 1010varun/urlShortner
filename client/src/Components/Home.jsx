@@ -8,6 +8,7 @@ import Card from "./urlCard";
 
 const Home = ({ toastFunction }) => {
   const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(false);
   // const [short, setShort] = useState("");
   const short = useRef("");
 
@@ -31,9 +32,10 @@ const Home = ({ toastFunction }) => {
       .catch(() => {
         dispatch(fetchUrls({ user: userName, urls: [] }));
       });
-  })
+  }, [])
 
   const makeShort = () => {
+    setLoading(true);
     axios({
       method: "POST",
       url: import.meta.env.VITE_BASE_URL + "/shorturl",
@@ -43,6 +45,7 @@ const Home = ({ toastFunction }) => {
       },
     })
       .then((resp) => {
+        setLoading(false);
           if (urls.length > 0) {
               dispatch(fetchUrls({ userName, urls: resp.data.urls }));
           } else {
@@ -57,6 +60,9 @@ const Home = ({ toastFunction }) => {
           setUrl("")
       });
   };
+
+  const loader = "Loading...";
+  const submit = "Submit";
 
 
   const copyText = () => {
@@ -77,9 +83,9 @@ const Home = ({ toastFunction }) => {
           ></input>
           <button
             className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
-            onClick={makeShort}
+            onClick={makeShort} disabled={ loading }
           >
-            Submit
+            { loading ? loader : submit }
           </button>
           {short.current.length === 0 ? (
             <div></div>

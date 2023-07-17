@@ -5,6 +5,7 @@ import axios from "axios";
 import { FiCopy } from "react-icons/fi";
 import propTypes from "prop-types";
 import Card from "./urlCard";
+import Loader from "./Loader";
 
 const Home = ({ toastFunction }) => {
   const [url, setUrl] = useState("");
@@ -61,8 +62,6 @@ const Home = ({ toastFunction }) => {
       });
   };
 
-  const loader = "Loading...";
-  const submit = "Submit";
 
 
   const copyText = () => {
@@ -81,12 +80,14 @@ const Home = ({ toastFunction }) => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           ></input>
-          <button
-            className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
-            onClick={makeShort} disabled={ loading }
-          >
-            { loading ? loader : submit }
-          </button>
+          {loading ? <Loader /> :
+            <button
+              className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
+              onClick={makeShort} disabled={loading}
+            >
+              Submit
+            </button>
+          }
           {short.current.length === 0 ? (
             <div></div>
           ) : (

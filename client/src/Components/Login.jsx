@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../features/login";
 import { fetchUrls } from "../features/userUrls";
 import propTypes from "prop-types";
+import Loader from "./Loader";
 
 const Login = ({ toastFunction }) => {
   const [userName, setUserName] = useState("");
@@ -63,9 +64,6 @@ const Login = ({ toastFunction }) => {
     }
   };
 
-  const loader = "Loading...";
-  const logintext = "Login"
-
   return (
     <div className="flex justify-center items-center h-96 mt-24">
       <div className="flex flex-col rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center h-2/3 shadow-xl border-2 border-gray-100">
@@ -87,12 +85,14 @@ const Login = ({ toastFunction }) => {
             setPassword(e.target.value);
           }}
         ></input>
-        <button
-          className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
-          onClick={handelClick} disabled={ loading}
-        >
-          {loading ? loader :  logintext }
-        </button>
+        {loading ? <Loader /> :
+          <button
+            className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
+            onClick={handelClick} disabled={loading}
+          >
+            Login
+          </button>
+        }
       </div>
     </div>
   );

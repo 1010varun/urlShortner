@@ -56,6 +56,7 @@ const Login = ({ toastFunction }) => {
           navigate("/");
         })
         .catch((err) => {
+          setLoading(false);
           toastFunction(err.response.data, 0);
           setUserName("");
           setPassword("");

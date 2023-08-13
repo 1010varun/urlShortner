@@ -57,6 +57,7 @@ const Home = ({ toastFunction }) => {
         setUrl("");
       })
       .catch(() => {
+        setLoading(false);
           toastFunction("Error Occured", 0);
           setUrl("")
       });

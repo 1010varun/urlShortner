@@ -8,7 +8,9 @@ django-cors-headers==4.1.0
 django-environ==0.10.0
 djangorestframework==3.14.0
 environ==1.0
+gunicorn==21.2.0
 idna==3.4
+packaging==23.1
 psycopg2-binary==2.9.7
 PyMySQL==1.1.0
 pyshorteners==1.0.1

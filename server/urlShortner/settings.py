@@ -31,7 +31,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split()
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -95,7 +95,14 @@ WSGI_APPLICATION = 'urlShortner.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'], engine='django_cockroachdb')}
+DATABASES = {
+    "default" :{
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3"
+    }
+}
+
+DATABASES["default"] = dj_database_url.parse(os.environ['DATABASE_URL'])
 
 
 

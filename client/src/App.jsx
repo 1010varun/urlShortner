@@ -3,7 +3,6 @@ import toast, { Toaster } from "react-hot-toast"
 
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
-import Navbar from "./Components/Navbar";
 import Protected from "./Components/Protected";
 import Home from "./Components/Home";
 import MapUrlPage from "./Components/MapUrl";
@@ -20,7 +19,6 @@ const App = () => {
   return (
     <>
       <Toaster />
-      <Navbar toastFunction={toastFunction} />
       <Router>
         <Routes>
           <Route

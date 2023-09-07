@@ -6,6 +6,7 @@ import { ClipboardCopy } from "lucide-react";
 import propTypes from "prop-types";
 import Card from "./urlCard";
 import Loader from "./Loader";
+import Navbar from "./Navbar";
 
 const Home = ({ toastFunction }) => {
   const [url, setUrl] = useState("");
@@ -75,6 +76,7 @@ const Home = ({ toastFunction }) => {
 
   return (
     <>
+      <Navbar toastFunction={toastFunction} />
       <div className="flex justify-center items-center h-96">
         <div className="flex flex-col rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center h-2/3 shadow-xl border-2 border-gray-100">
           <h1 className="mb-9 text-2xl">Short URL</h1>

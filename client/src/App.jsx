@@ -1,25 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast"
 
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Navbar from "./Components/Navbar";
 import Protected from "./Components/Protected";
 import Home from "./Components/Home";
+import MapUrlPage from "./Components/MapUrl";
 
 const App = () => {
   const toastFunction = (message, type) => {
     if (type === 0) {
-      toast.error(message, { theme: "dark" });
+      toast.error(message);
     } else if (type === 1) {
-      toast.success(message, { theme: "dark" });
+      toast.success(message);
     }
   };
 
   return (
     <>
-      <ToastContainer />
+      <Toaster />
       <Navbar toastFunction={toastFunction} />
       <Router>
         <Routes>
@@ -37,6 +37,10 @@ const App = () => {
           <Route
             path="/login"
             element={<Login toastFunction={toastFunction} />}
+          ></Route>
+          <Route
+            path="/:id"
+            element={<MapUrlPage />}
           ></Route>
         </Routes>
       </Router>

@@ -1,5 +1,5 @@
 import propTypes from "prop-types";
-import { FiCopy } from "react-icons/fi";
+import { ClipboardCopy } from "lucide-react";
 
 const Card = ({ data, toastFunction }) => {
   const copyText = (text) => {
@@ -12,8 +12,8 @@ const Card = ({ data, toastFunction }) => {
       className="grid grid-cols-1 sm:grid-cols-2 bg-white border rounded-md shadow-md md:flex-row w-4/5 lg:w-4/6 xl:w-3/6 mx-auto mt-5 p-3 hover:cursor-pointer hover:shadow-cyan-800/50"
       onClick={() => copyText(data)}
     >
-      <div className="text-start w-11/12 my-auto overflow-auto flex flex-row">
-        <FiCopy className="mt-1 me-3" />
+      <div className="text-start w-11/12 my-auto mx-auto overflow-auto flex flex-row">
+        <ClipboardCopy color="#0c3fb6" size={20} className="me-3" />
         {data}
       </div>
     </div>

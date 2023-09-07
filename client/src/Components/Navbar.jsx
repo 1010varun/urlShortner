@@ -17,7 +17,6 @@ const Navbar = ({ toastFunction }) => {
 
   useEffect(() => {
     if (localStorage.getItem('login')) {
-      console.log("")
       setLogin(localStorage.getItem('login'))
       setuserName(localStorage.getItem("username"));
     }

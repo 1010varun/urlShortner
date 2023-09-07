@@ -2,14 +2,10 @@ import pyshorteners
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from .models import *
-# from django.views.decorators.csrf import csrf_exempt
-# from django.utils.decorators import method_decorator
 import json
-
-
-# @method_decorator(csrf_exempt, name='dispatch')
-
-# @csrf_exempt
+import string
+import random
+import ast
 
 
 # CLASS FOR USER SIGNUP
@@ -58,6 +54,7 @@ class login(APIView):
         return HttpResponse(resp, status = status)
     
 
+
 # CLASS FOR FORGOT PASSWORD
 class forgot_password(APIView):
 
@@ -77,6 +74,7 @@ class forgot_password(APIView):
         return HttpResponse(resp, status = status)
     
 
+
 #CLASS FOR ALL USER URLS
 
 class usersUrls(APIView) : 
@@ -86,7 +84,8 @@ class usersUrls(APIView) :
         userName = data["userName"]
         try:
             user_urls = userUrls.objects.get(userName = userName).urls
-            response = json.dumps({"urls": user_urls.split(",")})
+            user_urls_dict = ast.literal_eval(user_urls)
+            response = json.dumps({"urls": list(user_urls_dict.keys())[:200]})
             status = 200
         except:
             response = "NO URLS FOUND"
@@ -99,33 +98,57 @@ class usersUrls(APIView) :
 # CLASS FOR MAKING URL SHORT
 class shortUrl(APIView) :
 
-    def short(self, longUrl):
-        shortener = pyshorteners.Shortener()
-        reduced_url = shortener.tinyurl.short(longUrl)
-        return reduced_url
+    def generate_random_string(self):
+        length = random.randint(5, 9)
+        characters = string.ascii_letters + string.digits
+        random_chars = [random.choice(characters) for _ in range(length)]
+        return ''.join(random_chars)
 
     def post(self, request):
         data = request.data
         default_url = data["url"]
         userName = data["userName"]
-        shorten_url = self.short(default_url)
-        user = userUrls.objects.filter(userName = userName)
-        if(len(user)):
-            user_urls = userUrls.objects.get(userName = userName).urls
-            newUrls = user_urls + ", " + shorten_url
-            user.update(urls = newUrls)
-            response = json.dumps({"urls": newUrls.split(","), "short": shorten_url})
-        else:
-            newUrls = shorten_url
-            new_url = userUrls(userName = userName, urls = newUrls)
-            new_url.save()
-            response = json.dumps({"urls": newUrls, "short": shorten_url})
-        return HttpResponse(response, content_type = "application/json", status = 200)
+        try:
+            shorten_url = self.generate_random_string()
+            user = userUrls.objects.filter(userName = userName)
+            if(len(user)):
+                user_urls = userUrls.objects.get(userName = userName).urls
+                user_urls_dict = ast.literal_eval(user_urls)
+                user_urls_dict[shorten_url] = default_url
+                user.update(urls = user_urls_dict)
+                response = json.dumps({"urls": list(user_urls_dict.keys()), "short": shorten_url})
+            else:
+                newUrls = {shorten_url: default_url}
+                new_url = userUrls(userName = userName, urls = newUrls)
+                new_url.save()
+                response = json.dumps({"urls": list(newUrls.keys()), "short": shorten_url})
+            all_urls = allUrls.objects.get()
+            all_urls_dict = ast.literal_eval(all_urls.urls)
+            all_urls_dict[shorten_url] = default_url
+            all_urls.urls = all_urls_dict
+            all_urls.save()
+            status = 200
+        except:
+            response = "SOME ERROR OCCURED"
+            status = 500
+        return HttpResponse(response, content_type = "application/json", status = status)
     
     def get(self, request):
         return HttpResponse("get request")
-    
-    
+        
 
+# CLASS FOR MAPPING URL
+class mapUrl(APIView):
 
-
+    def post(self, request):
+        data = request.data
+        shorten_url = data["url"]
+        try:
+            all_urls = allUrls.objects.get().urls
+            all_urls_dict = ast.literal_eval(all_urls)
+            response = json.dumps({"url": all_urls_dict[shorten_url]})
+            status = 200
+        except:
+            response = "SERVER ERROR"
+            status = 400
+        return HttpResponse(response, content_type = "application/json", status = status)

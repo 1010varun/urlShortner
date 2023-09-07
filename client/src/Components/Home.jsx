@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUrls } from "../features/userUrls";
 import axios from "axios";
-import { FiCopy } from "react-icons/fi";
+import { ClipboardCopy } from "lucide-react";
 import propTypes from "prop-types";
 import Card from "./urlCard";
 import Loader from "./Loader";
 
 const Home = ({ toastFunction }) => {
   const [url, setUrl] = useState("");
+  const [baseUrl, setBaseUrl] = useState("");
   const [loading, setLoading] = useState(false);
   // const [short, setShort] = useState("");
   const short = useRef("");
@@ -20,6 +21,8 @@ const Home = ({ toastFunction }) => {
   const userName = localStorage.getItem('username');
 
   useEffect(() => {
+    var path = location.protocol + '//' + location.host;
+    setBaseUrl(path);
     axios({
       method: "POST",
       url: import.meta.env.VITE_BASE_URL + "/allUrls",
@@ -52,7 +55,7 @@ const Home = ({ toastFunction }) => {
           } else {
               dispatch(fetchUrls({ userName, urls: [resp.data.urls] }));
           }
-        short.current = resp.data.short;
+        short.current = baseUrl + '/' + resp.data.short;
         toastFunction("URL shorted", 1);
         setUrl("");
       })
@@ -81,14 +84,17 @@ const Home = ({ toastFunction }) => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           ></input>
-          {loading ? <Loader /> :
+          {loading ? (
+            <Loader />
+          ) : (
             <button
               className="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white"
-              onClick={makeShort} disabled={loading}
+              onClick={makeShort}
+              disabled={loading}
             >
               Submit
             </button>
-          }
+          )}
           {short.current.length === 0 ? (
             <div></div>
           ) : (
@@ -97,7 +103,7 @@ const Home = ({ toastFunction }) => {
               onClick={copyText}
               disabled
             >
-              <FiCopy className="mt-1 me-3" />
+              <ClipboardCopy color="#0c3fb6" className="me-3" />
               {short.current}
             </div>
           )}
@@ -106,10 +112,18 @@ const Home = ({ toastFunction }) => {
       {length === 0 ? (
         <div className="text-center text-3xl font-bold">No URLs</div>
       ) : (
-        <div className="text-center text-3xl font-bold">URLs</div>
+        <div className="text-center text-3xl font-bold">
+          Previously shorted URLs
+        </div>
       )}
       {urls.map((url) => {
-        return <Card data={url} key={url} toastFunction={toastFunction} />;
+        return (
+          <Card
+            data={baseUrl + "/" + url}
+            key={url}
+            toastFunction={toastFunction}
+          />
+        );
       })}
     </>
   );

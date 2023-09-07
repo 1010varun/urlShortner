@@ -14,3 +14,6 @@ class userUrls(models.Model):
 
     def __str__(self):
         return self.userName
+    
+class allUrls(models.Model):
+    urls = models.TextField()

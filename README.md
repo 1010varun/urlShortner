@@ -35,6 +35,7 @@ Nw install client with following steps:
 Install node requirements
 
 ```bash
+cd client
 npm i
 ```
 Run the developement server with 

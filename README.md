@@ -1,6 +1,6 @@
 # URL Shortner
 
-This is an app used to featch the current weather of user's current location or by the location eneterd by the user.
+This is an app used to short the large and clumsy looking URLs into smaller one.
 
 [![GitHub issues](https://img.shields.io/github/issues/1010varun/urlShortner)](https://github.com/1010varun/urlShortner/issues)
 [![GitHub forks](https://img.shields.io/github/forks/1010varun/urlShortner)](https://github.com/1010varun/urlShortner/network)
@@ -60,6 +60,8 @@ npm run dev
 Contributions are always welcome!
 
 See `contributing.md` for ways to get started.
+
+Always make a PR in test branch
 
 ## Support++
 

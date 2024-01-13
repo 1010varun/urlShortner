@@ -1,6 +1,6 @@
 # URL Shortner
 
-This is an app used to short the large and clumsy looking URLs into smaller one.
+This is an app used to shorten the large and clumsy-looking URLs into smaller ones.
 
 [![GitHub issues](https://img.shields.io/github/issues/1010varun/urlShortner)](https://github.com/1010varun/urlShortner/issues)
 [![GitHub forks](https://img.shields.io/github/forks/1010varun/urlShortner)](https://github.com/1010varun/urlShortner/network)
@@ -25,12 +25,12 @@ cd server
 pip install -r requirements.txt
 ```
 
-Run the developement server with 
+Run the development server with 
 
 ```bash
 python manage.py runserver
 ```
-Nw install client with following steps:
+Now install client with the following steps:
 
 Install node requirements
 
@@ -38,7 +38,7 @@ Install node requirements
 cd client
 npm i
 ```
-Run the developement server with 
+Run the development server with 
 
 ```bash
 npm run dev
@@ -46,22 +46,22 @@ npm run dev
 
 ## Tech Stack
 
-**Client:** HTML , CSS , Javascript , Tailwind CSS, VITE, React js
+**Client:** HTML, CSS, JavaScript, Tailwind CSS, VITE, React JS
 
 **Server:** Python, Django
 
 ## Features
 
-- Shorts the given url and will provide redirection on being called.
-- Converts clumsy looking urls into small one
+- Shorts the given URL and will provide redirection on being called.
+- Converts clumsy-looking URLs into a small one
 
 ## Contributing
 
 Contributions are always welcome!
 
-See `contributing.md` for ways to get started.
+See [contribution.md](/Contribution.md) for ways to get started.
 
-Always make a PR in test branch
+Always make a PR in the test branch
 
 ## Support++
 

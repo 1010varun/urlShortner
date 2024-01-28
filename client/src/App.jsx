@@ -6,6 +6,7 @@ import Login from "./Components/Login";
 import Protected from "./Components/Protected";
 import Home from "./Components/Home";
 import MapUrlPage from "./Components/MapUrl";
+import Footer from "./Components/Footer";
 
 const App = () => {
   const toastFunction = (message, type) => {
@@ -42,6 +43,7 @@ const App = () => {
           ></Route>
         </Routes>
       </Router>
+    <Footer />
     </>
   );
 };

@@ -36,7 +36,12 @@ jobs:
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
 
-      - name: Perform CodeQL Analysis
+      - name: Perform CodeQL Analysis - JavaScript
         uses: github/codeql-action/analyze@v3
         with:
-          category: '/language:${{matrix.language}}'
+          category: 'JavaScript'
+
+      - name: Perform CodeQL Analysis - Python
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: 'Python'

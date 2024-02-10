@@ -62,7 +62,6 @@ const Login = ({ toastFunction }) => {
           setUserName("");
           setPassword("");
         });
-      
     }
   };
 
@@ -70,6 +69,10 @@ const Login = ({ toastFunction }) => {
     <>
       <Navbar toastFunction={toastFunction} />
       <div className="flex justify-center items-center h-96 mt-24">
+        <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+          <div className="absolute bottom-0 left-0 right-0 top-10 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)]"></div>
+        </div>
+
         <div className="flex flex-col rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center h-2/3 shadow-xl border-2 border-gray-100">
           <h1 className="mb-9 text-2xl">Login</h1>
           <input

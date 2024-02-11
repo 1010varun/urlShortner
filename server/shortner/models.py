@@ -16,4 +16,8 @@ class userUrls(models.Model):
         return self.userName
     
 class allUrls(models.Model):
-    urls = models.TextField()
+    userUrl = models.CharField(max_length=100)
+    shortenUrl = models.CharField(max_length=100, default="https://google.com")
+
+    def __str__(self) :
+        return self.userUrl

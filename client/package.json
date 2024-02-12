@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
+    "@reduxjs/toolkit": "^2.1.0",
     "axios": "^1.4.0",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.274.0",
